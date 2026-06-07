@@ -1,0 +1,109 @@
+JS
+===========
+/*
+Given an API returning a list of todos, we want to fetch the list, create a separate block for each user, and display their todos in the appropriate block.
+
+Use this endpoint URL to get the todos: https://dummyjson.com/todos?limit=10&skip=80. It will return the following structure with total of 10 todos:
+{
+  "todos": [
+    {
+      "id": 1,
+      "todo": "Do something nice for someone I care about",
+      "completed": true,
+      "userId": 26
+    },
+  ],
+}
+
+Each block should contain the userId as the title of the block and the list of todos.
+*/
+
+fetch('https://dummyjson.com/todos?limit=10&skip=80')
+ .then(res => res.json())
+ .then(data => {
+   const grouped = {};
+   
+   data.todos.forEach(todo => {
+     if(!grouped[todo.userId]){
+       grouped[todo.userId] = [];
+     }
+     
+     grouped[todo.userId].push(todo);
+   });
+   
+   const container = document.getElementById('users');
+   
+   Object.entries(grouped).forEach(([userId, todos]) => {
+     const card = document.createElement('div');
+     card.className = 'card';
+     
+    card.innerHTML = `
+    <h3>User # ${userId}</h3>
+    <ul>
+    ${todos.map(todo => `<li>${todo.todo}</li>`).join('')}
+    </ul>
+    `;
+    container.appendChild(card);
+    });
+ });
+
+
+CSS
+=================
+
+ body {
+  margin: 0;
+  padding: 20px;
+  /* background: #2f343f; */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  background: #2f343f;
+  padding: 20px;
+  border-radius: 8px;
+  
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  background: fff;
+  border-radius: 10px;
+  padding: 20px;
+  min-width: 180px;
+  max-width: 300px;
+  
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+
+.card h3{
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.card ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.card li{
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+
+HTML
+=================
+
+<div class="expected-output">
+  <hr />
+  <img src="https://public.karat.io/content/front-end-coding-exercises/user-todos.png" />
+  <hr /><br /><br />
+</div>
+
+<div id="users" class="containers"></div>

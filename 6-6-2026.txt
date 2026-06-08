@@ -107,3 +107,43 @@ HTML
 </div>
 
 <div id="users" class="containers"></div>
+
+
+=============================================================================================
+
+Angular Pipe Interview Questions & Answers
+
+1.  How is the pipe made available to the module?
+
+-   Declare the pipe in the module’s declarations array.
+-   If using a SharedModule, export it and import that module where
+    needed.
+
+@NgModule({ declarations: [TruncatePipe] }) export class AppModule {}
+
+2.  How do you use the pipe with default options? {{ content | truncate
+    }}
+
+Uses default values: - max = 10 - append = ‘…’
+
+3.  How do you override the default parameters? {{ content |
+    truncate:20:’***’ }}
+
+-   20 becomes the max length.
+-   *** becomes the appended text.
+
+4.  How do you override only the append parameter? {{ content |
+    truncate:10:’ [more]’ }}
+
+-   Angular pipe arguments are positional.
+-   You cannot skip the first parameter.
+-   Pass the default max value and then the custom append value.
+
+30-Second Interview Response: The pipe is made available by declaring it
+in an Angular module. To use it with default settings, I’d write {{
+content | truncate }}. To override parameters, I’d pass them using colon
+syntax, such as {{ content | truncate:20:‘…’ }}. Since pipe arguments
+are positional, if I only want to change the append text, I still need
+to pass the max value first, for example {{ content | truncate:10:’
+[more]’ }}.
+
